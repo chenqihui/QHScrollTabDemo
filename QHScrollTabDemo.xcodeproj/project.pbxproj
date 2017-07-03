@@ -1,0 +1,395 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		74038D801F07787800184691 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 74038D7F1F07787800184691 /* main.m */; };
+		74038D831F07787800184691 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 74038D821F07787800184691 /* AppDelegate.m */; };
+		74038D871F07787800184691 /* QHTableRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74038D861F07787800184691 /* QHTableRootViewController.m */; };
+		74038D8A1F07787800184691 /* QHDetailRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74038D891F07787800184691 /* QHDetailRootViewController.m */; };
+		74038D8E1F07787800184691 /* QHTableSubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74038D8D1F07787800184691 /* QHTableSubViewController.m */; };
+		74038D901F07787800184691 /* QHTableSubViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74038D8F1F07787800184691 /* QHTableSubViewController.xib */; };
+		74038D931F07787800184691 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74038D921F07787800184691 /* ViewController.m */; };
+		74038D961F07787800184691 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74038D941F07787800184691 /* Main.storyboard */; };
+		74038D981F07787800184691 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74038D971F07787800184691 /* Assets.xcassets */; };
+		74038D9B1F07787800184691 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74038D991F07787800184691 /* LaunchScreen.storyboard */; };
+		74038DA81F0778F900184691 /* QHScrollTabDefaultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 74038DA41F0778F900184691 /* QHScrollTabDefaultView.m */; };
+		74038DA91F0778F900184691 /* QHScrollTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 74038DA61F0778F900184691 /* QHScrollTabView.m */; };
+		74038DAE1F07926D00184691 /* QHCustomWidthScrollTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 74038DAD1F07926D00184691 /* QHCustomWidthScrollTabView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		74038D7B1F07787800184691 /* QHScrollTabDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QHScrollTabDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		74038D7F1F07787800184691 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		74038D811F07787800184691 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		74038D821F07787800184691 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		74038D851F07787800184691 /* QHTableRootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QHTableRootViewController.h; path = QHTableController/QHTableRootViewController.h; sourceTree = "<group>"; };
+		74038D861F07787800184691 /* QHTableRootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = QHTableRootViewController.m; path = QHTableController/QHTableRootViewController.m; sourceTree = "<group>"; };
+		74038D881F07787800184691 /* QHDetailRootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QHDetailRootViewController.h; path = QHTableController/QHDetailRootViewController.h; sourceTree = "<group>"; };
+		74038D891F07787800184691 /* QHDetailRootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = QHDetailRootViewController.m; path = QHTableController/QHDetailRootViewController.m; sourceTree = "<group>"; };
+		74038D8C1F07787800184691 /* QHTableSubViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QHTableSubViewController.h; path = QHTableSubController/QHTableSubViewController.h; sourceTree = "<group>"; };
+		74038D8D1F07787800184691 /* QHTableSubViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = QHTableSubViewController.m; path = QHTableSubController/QHTableSubViewController.m; sourceTree = "<group>"; };
+		74038D8F1F07787800184691 /* QHTableSubViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = QHTableSubViewController.xib; path = QHTableSubController/QHTableSubViewController.xib; sourceTree = "<group>"; };
+		74038D911F07787800184691 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		74038D921F07787800184691 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		74038D951F07787800184691 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		74038D971F07787800184691 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		74038D9A1F07787800184691 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		74038D9C1F07787800184691 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		74038DA31F0778F900184691 /* QHScrollTabDefaultView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QHScrollTabDefaultView.h; sourceTree = "<group>"; };
+		74038DA41F0778F900184691 /* QHScrollTabDefaultView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QHScrollTabDefaultView.m; sourceTree = "<group>"; };
+		74038DA51F0778F900184691 /* QHScrollTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QHScrollTabView.h; sourceTree = "<group>"; };
+		74038DA61F0778F900184691 /* QHScrollTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QHScrollTabView.m; sourceTree = "<group>"; };
+		74038DA71F0778F900184691 /* QHScrollTabViewProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QHScrollTabViewProtocol.h; sourceTree = "<group>"; };
+		74038DAC1F07926D00184691 /* QHCustomWidthScrollTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QHCustomWidthScrollTabView.h; sourceTree = "<group>"; };
+		74038DAD1F07926D00184691 /* QHCustomWidthScrollTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QHCustomWidthScrollTabView.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		74038D781F07787800184691 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		74038D721F07787800184691 = {
+			isa = PBXGroup;
+			children = (
+				74038D7D1F07787800184691 /* QHScrollTabDemo */,
+				74038D7C1F07787800184691 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		74038D7C1F07787800184691 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				74038D7B1F07787800184691 /* QHScrollTabDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		74038D7D1F07787800184691 /* QHScrollTabDemo */ = {
+			isa = PBXGroup;
+			children = (
+				74038DAB1F07923900184691 /* QHScrollTabOtherView */,
+				74038DA21F0778DD00184691 /* QHScrollTabMan */,
+				74038D811F07787800184691 /* AppDelegate.h */,
+				74038D821F07787800184691 /* AppDelegate.m */,
+				74038D911F07787800184691 /* ViewController.h */,
+				74038D921F07787800184691 /* ViewController.m */,
+				74038D941F07787800184691 /* Main.storyboard */,
+				74038D971F07787800184691 /* Assets.xcassets */,
+				74038D991F07787800184691 /* LaunchScreen.storyboard */,
+				74038D9C1F07787800184691 /* Info.plist */,
+				74038D841F07787800184691 /* QHTableController */,
+				74038D8B1F07787800184691 /* QHTableSubController */,
+				74038D7E1F07787800184691 /* Supporting Files */,
+			);
+			path = QHScrollTabDemo;
+			sourceTree = "<group>";
+		};
+		74038D7E1F07787800184691 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				74038D7F1F07787800184691 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		74038D841F07787800184691 /* QHTableController */ = {
+			isa = PBXGroup;
+			children = (
+				74038D851F07787800184691 /* QHTableRootViewController.h */,
+				74038D861F07787800184691 /* QHTableRootViewController.m */,
+				74038D881F07787800184691 /* QHDetailRootViewController.h */,
+				74038D891F07787800184691 /* QHDetailRootViewController.m */,
+			);
+			name = QHTableController;
+			sourceTree = "<group>";
+		};
+		74038D8B1F07787800184691 /* QHTableSubController */ = {
+			isa = PBXGroup;
+			children = (
+				74038D8C1F07787800184691 /* QHTableSubViewController.h */,
+				74038D8D1F07787800184691 /* QHTableSubViewController.m */,
+				74038D8F1F07787800184691 /* QHTableSubViewController.xib */,
+			);
+			name = QHTableSubController;
+			sourceTree = "<group>";
+		};
+		74038DA21F0778DD00184691 /* QHScrollTabMan */ = {
+			isa = PBXGroup;
+			children = (
+				74038DA31F0778F900184691 /* QHScrollTabDefaultView.h */,
+				74038DA41F0778F900184691 /* QHScrollTabDefaultView.m */,
+				74038DA51F0778F900184691 /* QHScrollTabView.h */,
+				74038DA61F0778F900184691 /* QHScrollTabView.m */,
+				74038DA71F0778F900184691 /* QHScrollTabViewProtocol.h */,
+			);
+			path = QHScrollTabMan;
+			sourceTree = "<group>";
+		};
+		74038DAB1F07923900184691 /* QHScrollTabOtherView */ = {
+			isa = PBXGroup;
+			children = (
+				74038DAC1F07926D00184691 /* QHCustomWidthScrollTabView.h */,
+				74038DAD1F07926D00184691 /* QHCustomWidthScrollTabView.m */,
+			);
+			path = QHScrollTabOtherView;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		74038D7A1F07787800184691 /* QHScrollTabDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 74038D9F1F07787800184691 /* Build configuration list for PBXNativeTarget "QHScrollTabDemo" */;
+			buildPhases = (
+				74038D771F07787800184691 /* Sources */,
+				74038D781F07787800184691 /* Frameworks */,
+				74038D791F07787800184691 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = QHScrollTabDemo;
+			productName = QHScrollTabDemo;
+			productReference = 74038D7B1F07787800184691 /* QHScrollTabDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		74038D731F07787800184691 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "Qianjun Network Technology";
+				TargetAttributes = {
+					74038D7A1F07787800184691 = {
+						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = JC9Y4K55DX;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 74038D761F07787800184691 /* Build configuration list for PBXProject "QHScrollTabDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 74038D721F07787800184691;
+			productRefGroup = 74038D7C1F07787800184691 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				74038D7A1F07787800184691 /* QHScrollTabDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		74038D791F07787800184691 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				74038D901F07787800184691 /* QHTableSubViewController.xib in Resources */,
+				74038D9B1F07787800184691 /* LaunchScreen.storyboard in Resources */,
+				74038D981F07787800184691 /* Assets.xcassets in Resources */,
+				74038D961F07787800184691 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		74038D771F07787800184691 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				74038D931F07787800184691 /* ViewController.m in Sources */,
+				74038DAE1F07926D00184691 /* QHCustomWidthScrollTabView.m in Sources */,
+				74038D831F07787800184691 /* AppDelegate.m in Sources */,
+				74038D871F07787800184691 /* QHTableRootViewController.m in Sources */,
+				74038D8A1F07787800184691 /* QHDetailRootViewController.m in Sources */,
+				74038D801F07787800184691 /* main.m in Sources */,
+				74038DA81F0778F900184691 /* QHScrollTabDefaultView.m in Sources */,
+				74038DA91F0778F900184691 /* QHScrollTabView.m in Sources */,
+				74038D8E1F07787800184691 /* QHTableSubViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		74038D941F07787800184691 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				74038D951F07787800184691 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		74038D991F07787800184691 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				74038D9A1F07787800184691 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		74038D9D1F07787800184691 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		74038D9E1F07787800184691 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		74038DA01F07787800184691 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = JC9Y4K55DX;
+				INFOPLIST_FILE = QHScrollTabDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.chen.QHScrollTabDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		74038DA11F07787800184691 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = JC9Y4K55DX;
+				INFOPLIST_FILE = QHScrollTabDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.chen.QHScrollTabDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		74038D761F07787800184691 /* Build configuration list for PBXProject "QHScrollTabDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				74038D9D1F07787800184691 /* Debug */,
+				74038D9E1F07787800184691 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		74038D9F1F07787800184691 /* Build configuration list for PBXNativeTarget "QHScrollTabDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				74038DA01F07787800184691 /* Debug */,
+				74038DA11F07787800184691 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 74038D731F07787800184691 /* Project object */;
+}

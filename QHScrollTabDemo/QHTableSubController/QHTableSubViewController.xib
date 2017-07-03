@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QHTableSubViewController">
+            <connections>
+                <outlet property="mainSV" destination="k5J-mB-2rh" id="oR9-Bf-KVW"/>
+                <outlet property="pageControl" destination="fMX-ab-VNe" id="i35-UK-zCt"/>
+                <outlet property="scrollTabV" destination="m57-SN-Gq2" id="q9u-fT-pev"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m57-SN-Gq2" customClass="QHScrollTabView">
+                    <rect key="frame" x="0.0" y="64" width="375" height="40"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="xqc-jx-v1j"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F06-Wz-xGf">
+                    <rect key="frame" x="0.0" y="104" width="375" height="499"/>
+                    <subviews>
+                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k5J-mB-2rh">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="499"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="Nzs-L5-XCp"/>
+                            </connections>
+                        </scrollView>
+                        <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="fMX-ab-VNe">
+                            <rect key="frame" x="0.0" y="442" width="375" height="37"/>
+                            <color key="pageIndicatorTintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="0.5" colorSpace="calibratedRGB"/>
+                            <color key="currentPageIndicatorTintColor" red="1" green="0.85490196080000003" blue="0.2666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </pageControl>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="fMX-ab-VNe" secondAttribute="bottom" constant="20" id="LDn-fZ-gDO"/>
+                        <constraint firstItem="k5J-mB-2rh" firstAttribute="top" secondItem="F06-Wz-xGf" secondAttribute="top" id="NQf-TL-5HH"/>
+                        <constraint firstAttribute="trailing" secondItem="k5J-mB-2rh" secondAttribute="trailing" id="SGU-LP-dwu"/>
+                        <constraint firstAttribute="trailing" secondItem="fMX-ab-VNe" secondAttribute="trailing" id="ZIF-hj-nX0"/>
+                        <constraint firstItem="fMX-ab-VNe" firstAttribute="leading" secondItem="F06-Wz-xGf" secondAttribute="leading" id="bJj-Rn-f9e"/>
+                        <constraint firstItem="k5J-mB-2rh" firstAttribute="leading" secondItem="F06-Wz-xGf" secondAttribute="leading" id="hSe-d8-MGR"/>
+                        <constraint firstAttribute="bottom" secondItem="k5J-mB-2rh" secondAttribute="bottom" id="ju2-JE-zDe"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="F06-Wz-xGf" firstAttribute="top" secondItem="m57-SN-Gq2" secondAttribute="bottom" id="A3p-iQ-bT4"/>
+                <constraint firstAttribute="trailing" secondItem="m57-SN-Gq2" secondAttribute="trailing" id="Knj-QN-TUq"/>
+                <constraint firstItem="m57-SN-Gq2" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="R2I-G7-Gh9"/>
+                <constraint firstItem="m57-SN-Gq2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ZhK-Ky-ixJ"/>
+                <constraint firstAttribute="trailing" secondItem="F06-Wz-xGf" secondAttribute="trailing" id="ce8-Ud-pJt"/>
+                <constraint firstAttribute="bottom" secondItem="F06-Wz-xGf" secondAttribute="bottom" id="xe0-9A-yeW"/>
+                <constraint firstItem="F06-Wz-xGf" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="y4E-sD-ZAK"/>
+            </constraints>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <point key="canvasLocation" x="33.5" y="53.5"/>
+        </view>
+    </objects>
+</document>
