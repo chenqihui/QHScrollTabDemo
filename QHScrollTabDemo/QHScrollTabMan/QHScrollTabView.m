@@ -35,6 +35,7 @@
 @property (nonatomic, strong) NSMutableArray *tabWidthArray;
 
 @property (nonatomic) CGFloat tabCountMax;
+@property (nonatomic) CGFloat lastContentOffsetX;
 
 @end
 
@@ -378,7 +379,44 @@
                 self.highlightView.frame = frame;
             }
             
-            NSUInteger idx = [self p_getPageSectionByX:(xx + [self.tabWidthArray[self.currentIndex - 1] floatValue]/2)] + 1;//self.highlightView.center.x/self.tabWidth + 1;
+            //判断方向，当前这个tab与滑向方向的tab的pages比较，小的话-1
+            NSInteger indexTemp = -1;
+//            if (indexTemp > self.sumCount) {
+//                indexTemp = self.sumCount - 1;
+//            }
+//            else {
+//                if (contentOffset.x >= self.lastContentOffsetX) {
+//                    if (indexTemp == self.sumCount && contentOffset.x >= self.mainSV.frame.size.width*count) {
+//                        indexTemp -= 1;
+//                    }
+//                    else {
+//                        CGFloat currentPages = [self.scrollTabView scrollTabViewNumberOfRowsInSection:indexTemp - 1];
+//                        CGFloat nexrPages = [self.scrollTabView scrollTabViewNumberOfRowsInSection:indexTemp];
+//                        if (nexrPages == currentPages) {
+//                            indexTemp -= 1;
+//                        }
+//                    }
+//                }
+//                else
+                if (contentOffset.x < self.lastContentOffsetX) {
+                    if (contentOffset.x > 0) {
+                        NSUInteger idxTT = [self p_getPageSectionByX:xx] + 1;
+                        
+                        if (idxTT >= self.sumCount) {
+                            idxTT = self.sumCount - 1;
+                        }
+                        CGFloat currentPages = [self.scrollTabView scrollTabViewNumberOfRowsInSection:idxTT];
+                        CGFloat nexrPages = [self.scrollTabView scrollTabViewNumberOfRowsInSection:idxTT - 1];
+                        if (nexrPages <= currentPages) {
+                            indexTemp = 0;
+                        }
+                    }
+                }
+//            }
+            NSLog(@"%ld", (long)indexTemp);
+            self.lastContentOffsetX = contentOffset.x;
+            
+            NSUInteger idx = [self p_getPageSectionByX:(xx + [self.tabWidthArray[self.currentIndex + indexTemp] floatValue]/2.0)] + 1;//self.highlightView.center.x/self.tabWidth + 1;
             if (idx != self.currentIndex) {
                 [self p_setClickLabel:idx];
                 if (count > 5) {
