@@ -95,7 +95,7 @@
 
 - (void)p_initMutilHavePages {
     self.arTitles = @[@"VIP", @"守护开门", @"商城", @"守护啊", @"商城", @"守护哈哈哈", @"商城"];
-    self.arPages = @[@3, @1, @2, @3, @2, @2, @3];
+    self.arPages = @[@2, @1, @2, @3, @2, @1, @3];
     
     self.scrollView = [[QHCustomWidthScrollTabView alloc] initWithTitles:self.arTitles page:self.arPages];
 }

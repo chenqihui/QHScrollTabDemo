@@ -36,6 +36,7 @@
 
 @property (nonatomic) CGFloat tabCountMax;
 @property (nonatomic) CGFloat lastContentOffsetX;
+@property (nonatomic) NSUInteger lastIndex;
 
 @end
 
@@ -99,6 +100,7 @@
     self.goSectionIndex = 0;
     self.currentIndex = -1;
     self.bOpenScrollDelegate = NO;
+    self.lastIndex = self.currentIndex;
     
     if ([self.scrollTabView respondsToSelector:@selector(scrollTabCountMax:)]) {
         self.tabCountMax = [self.scrollTabView scrollTabCountMax:self.bounds.size.width];
@@ -176,6 +178,7 @@
     UIView *newView = [self.contentSV viewWithTag:idx];
     [self.scrollTabView highlightClickView:newView oldView:oldView];
     
+    self.lastIndex = self.currentIndex;
     self.currentIndex = idx;
 //    NSLog(@"scroll---->%lu", (unsigned long)self.currentIndex);
 }
@@ -398,25 +401,50 @@
 //                    }
 //                }
 //                else
-                if (contentOffset.x < self.lastContentOffsetX) {
-                    if (contentOffset.x > 0) {
-                        NSUInteger idxTT = [self p_getPageSectionByX:xx] + 1;
-                        
-                        if (idxTT >= self.sumCount) {
-                            idxTT = self.sumCount - 1;
-                        }
-                        CGFloat currentPages = [self.scrollTabView scrollTabViewNumberOfRowsInSection:idxTT];
-                        CGFloat nexrPages = [self.scrollTabView scrollTabViewNumberOfRowsInSection:idxTT - 1];
-                        if (nexrPages <= currentPages) {
-                            indexTemp = 0;
-                        }
-                    }
+//                if (contentOffset.x < self.lastContentOffsetX) {
+//                    if (contentOffset.x > 0) {
+//                        NSUInteger idxTT = [self p_getPageSectionByX:xx] + 1;
+//                        
+//                        if (idxTT >= self.sumCount) {
+//                            idxTT = self.sumCount - 1;
+//                        }
+//                        CGFloat currentPages = [self.scrollTabView scrollTabViewNumberOfRowsInSection:idxTT];
+//                        CGFloat nexrPages = [self.scrollTabView scrollTabViewNumberOfRowsInSection:idxTT - 1];
+//                        if (nexrPages <= currentPages) {
+//                            indexTemp = 0;
+//                        }
+//                    }
+//                }
+            
+            if (self.lastIndex != -1) {
+                CGFloat currentPages = [self.scrollTabView scrollTabViewNumberOfRowsInSection:self.currentIndex];
+                CGFloat nexrPages = [self.scrollTabView scrollTabViewNumberOfRowsInSection:self.lastIndex];
+                if (nexrPages != currentPages) {
+                    indexTemp = 0;
                 }
+            }
 //            }
-            NSLog(@"%ld", (long)indexTemp);
+            
+            CGFloat nn = 1;
+            if (contentOffset.x >= self.lastContentOffsetX) {
+                nn = 0.25;
+            }
+            else {
+                nn = 0.75;
+            }
+            NSLog(@"xx==%f", xx);
+            NSLog(@"nn==%f", nn);
             self.lastContentOffsetX = contentOffset.x;
             
-            NSUInteger idx = [self p_getPageSectionByX:(xx + [self.tabWidthArray[self.currentIndex + indexTemp] floatValue]/2.0)] + 1;//self.highlightView.center.x/self.tabWidth + 1;
+            NSUInteger nowIdx = [self p_getPageSectionByX:xx];
+            CGFloat ww = [(self.tabWidthArray[nowIdx]) floatValue];
+            NSLog(@"nowIdx==%ld", (long)nowIdx);
+            NSUInteger idx = [self p_getPageSectionByX:(xx + ww*nn)] + 1;//self.highlightView.center.x/self.tabWidth + 1;
+//            NSUInteger idx = [self p_getPageSectionByX:(xx + [self.tabWidthArray[self.currentIndex - 1] floatValue]/2.0)] + 1;
+            
+            //对于自定义宽带是有问题的，但是单页就正常，尝试将多页情况判断为单页。即滑动判断临界页，这就需要判断滑动的位置是否处于临界页了
+            
+            NSLog(@"idx==%ld", (long)idx);
             if (idx != self.currentIndex) {
                 [self p_setClickLabel:idx];
                 if (count > 5) {
