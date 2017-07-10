@@ -33,6 +33,7 @@
 
 @property BOOL bUseCustomWidth;
 @property (nonatomic, strong) NSMutableArray *tabWidthArray;
+@property (nonatomic, strong) NSMutableArray *scrollZoneArray;
 
 @property (nonatomic) CGFloat tabCountMax;
 @property (nonatomic) CGFloat lastContentOffsetX;
@@ -129,6 +130,8 @@
         
         self.tabWidthArray = nil;
         self.tabWidthArray = [NSMutableArray new];
+        self.scrollZoneArray = nil;
+        self.scrollZoneArray = [NSMutableArray new];
         
         self.tabHeight = self.contentSV.frame.size.height;
         
@@ -159,6 +162,12 @@
             [self.tabWidthArray addObject:[NSNumber numberWithFloat:w]];
             
             xTemp += subV.frame.size.width;
+            
+            
+            NSInteger pageEnd = [self p_getCountRowsInSection:i] - 1;
+            NSInteger pageStart = pageEnd - [self.scrollTabView scrollTabViewNumberOfRowsInSection:i] + 1;
+            [self.scrollZoneArray addObject:@(pageStart)];
+            [self.scrollZoneArray addObject:@(pageEnd)];
         }
         
         if (self.bUseCustomWidth == NO) {
@@ -359,17 +368,46 @@
     }
     if ([keyPath isEqualToString:@"contentOffset"]) {
         CGPoint contentOffset = [[change valueForKey:NSKeyValueChangeNewKey] CGPointValue];
+        NSLog(@"contentOffset--->%f", contentOffset.x);
         NSUInteger i = contentOffset.x/self.mainSV.frame.size.width;
-        CGFloat offX = contentOffset.x - i*self.mainSV.frame.size.width;
-        if ((contentOffset.x > 0 && offX == 0) || offX > 0) {
-            i += 1;
-        }
-        NSInteger section = [self p_getCurrentSection:i];
-        NSInteger pages = [self p_getCountRowsInSection:section];
         
-        if (contentOffset.x >= (pages-1)*self.mainSV.frame.size.width) {
-            NSInteger count = [self.scrollTabView numberOfSectionsInScrollTabView];
-            offX = offX + section*self.mainSV.frame.size.width;
+//        CGFloat offX = contentOffset.x - i*self.mainSV.frame.size.width;
+//        if ((contentOffset.x > 0 && offX == 0) || offX > 0) {
+//            i += 1;
+//        }
+//        NSInteger section = [self p_getCurrentSection:i];
+//        NSInteger pages = [self p_getCountRowsInSection:section];
+        
+        NSInteger count = [self.scrollTabView numberOfSectionsInScrollTabView];
+
+        
+        
+        NSInteger pagesCount = [self p_getCountRowsInSection:(count - 1)];
+        
+        if (contentOffset.x < 0 || contentOffset.x > ((pagesCount - 1) * self.mainSV.frame.size.width)) {
+            return;
+        }
+        
+        NSInteger section = -1;
+        for (int index = 0; index < count; index++) {
+            NSInteger pageEnd = [self p_getCountRowsInSection:index] - 1;
+            NSInteger pageStart = pageEnd - [self.scrollTabView scrollTabViewNumberOfRowsInSection:index] + 1;
+            if ((i == pageEnd && contentOffset.x >= self.lastContentOffsetX)) {
+                section = index;
+                break;
+            }
+            else if (((i + 1) == pageStart && contentOffset.x < self.lastContentOffsetX)) {
+                section = index - 1;
+                break;
+            }
+        }
+        if (section == -1) {
+            return;
+        }
+        
+//        if (contentOffset.x >= (pages-1)*self.mainSV.frame.size.width) {
+//            NSInteger count = [self.scrollTabView numberOfSectionsInScrollTabView];
+            CGFloat offX = contentOffset.x - (i - section)*self.mainSV.frame.size.width;
             CGFloat xx = offX == 0 ? 0 : offX/(self.mainSV.frame.size.width*count)*self.contentSV.contentSize.width;
             if (self.bUseCustomWidth == NO) {
                 CGRect frame = self.highlightView.frame;
@@ -381,63 +419,23 @@
 //                [self.contentSV scrollRectToVisible:frame animated:YES];
                 self.highlightView.frame = frame;
             }
-            
-            //判断方向，当前这个tab与滑向方向的tab的pages比较，小的话-1
-            NSInteger indexTemp = -1;
-//            if (indexTemp > self.sumCount) {
-//                indexTemp = self.sumCount - 1;
-//            }
-//            else {
-//                if (contentOffset.x >= self.lastContentOffsetX) {
-//                    if (indexTemp == self.sumCount && contentOffset.x >= self.mainSV.frame.size.width*count) {
-//                        indexTemp -= 1;
-//                    }
-//                    else {
-//                        CGFloat currentPages = [self.scrollTabView scrollTabViewNumberOfRowsInSection:indexTemp - 1];
-//                        CGFloat nexrPages = [self.scrollTabView scrollTabViewNumberOfRowsInSection:indexTemp];
-//                        if (nexrPages == currentPages) {
-//                            indexTemp -= 1;
-//                        }
-//                    }
-//                }
-//                else
-//                if (contentOffset.x < self.lastContentOffsetX) {
-//                    if (contentOffset.x > 0) {
-//                        NSUInteger idxTT = [self p_getPageSectionByX:xx] + 1;
-//                        
-//                        if (idxTT >= self.sumCount) {
-//                            idxTT = self.sumCount - 1;
-//                        }
-//                        CGFloat currentPages = [self.scrollTabView scrollTabViewNumberOfRowsInSection:idxTT];
-//                        CGFloat nexrPages = [self.scrollTabView scrollTabViewNumberOfRowsInSection:idxTT - 1];
-//                        if (nexrPages <= currentPages) {
-//                            indexTemp = 0;
-//                        }
-//                    }
-//                }
-            
-            if (self.lastIndex != -1) {
-                CGFloat currentPages = [self.scrollTabView scrollTabViewNumberOfRowsInSection:self.currentIndex];
-                CGFloat nexrPages = [self.scrollTabView scrollTabViewNumberOfRowsInSection:self.lastIndex];
-                if (nexrPages != currentPages) {
-                    indexTemp = 0;
-                }
-            }
-//            }
-            
+        
+        NSUInteger nowIdx = [self p_getPageSectionByX:xx];
             CGFloat nn = 1;
             if (contentOffset.x >= self.lastContentOffsetX) {
                 nn = 0.25;
             }
             else {
                 nn = 0.75;
+                if ([self p_getCountRowsInSection:(nowIdx - 1)] != (i + 1)) {
+                    nowIdx += 1;
+                }
             }
             NSLog(@"xx==%f", xx);
             NSLog(@"nn==%f", nn);
             self.lastContentOffsetX = contentOffset.x;
-            
-            NSUInteger nowIdx = [self p_getPageSectionByX:xx];
             CGFloat ww = [(self.tabWidthArray[nowIdx]) floatValue];
+        
             NSLog(@"nowIdx==%ld", (long)nowIdx);
             NSUInteger idx = [self p_getPageSectionByX:(xx + ww*nn)] + 1;//self.highlightView.center.x/self.tabWidth + 1;
 //            NSUInteger idx = [self p_getPageSectionByX:(xx + [self.tabWidthArray[self.currentIndex - 1] floatValue]/2.0)] + 1;
@@ -456,7 +454,7 @@
                 }
             }
         }
-    }
+//    }
 }
 
 #pragma mark - Get
