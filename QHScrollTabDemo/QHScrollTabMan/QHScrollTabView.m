@@ -171,13 +171,14 @@
             xTemp += subV.frame.size.width;
             
             
-            NSInteger pageEnd = [self p_getCountRowsInSection:i] - 1;
+            NSInteger pageEnd = [self p_countRowsInSection:i] - 1;
             NSInteger pageStart = pageEnd - [self.scrollTabView scrollTabViewNumberOfRowsInSection:i] + 1;
             [self.scrollZoneArray addObject:@(pageStart)];
             [self.scrollZoneArray addObject:@(pageEnd)];
         }
         
-        //TODO: 判断是否有实现，并返回view
+        //TODO: 判断是否有实现，并返回游标的view
+        //TODO: 变动的游标
         self.highlightView = [self.scrollTabView scrollTabViewHighlightViewWithSize:CGSizeMake(minW, self.tabHeight)];
         [self.contentSV addSubview:self.highlightView];
         
@@ -212,15 +213,6 @@
     return section;
 }
 
-//废弃，使用p_countRowsInSection替换
-- (NSInteger)p_getCountRowsInSection:(NSInteger)section {
-    NSInteger rows = 0;
-    for (int i = 0; i <= section; i++) {
-        rows += [self.scrollTabView scrollTabViewNumberOfRowsInSection:i];
-    }
-    return rows;
-}
-
 - (NSInteger)p_countRowsInSection:(NSInteger)section {
     NSInteger rows = 0;
     NSInteger count = MIN([self.scrollTabView numberOfSectionsInScrollTabView], section);
@@ -231,7 +223,7 @@
 }
 
 - (void)p_setCurrentTab:(NSUInteger)section {
-    NSInteger pages = [self p_getCountRowsInSection:section-1];
+    NSInteger pages = [self p_countRowsInSection:section];
     self.bTapTab = YES;
     if (self.mainSV != nil)
         [self.mainSV setContentOffset:(CGPoint){self.mainSV.frame.size.width*pages, 0} animated:NO];
