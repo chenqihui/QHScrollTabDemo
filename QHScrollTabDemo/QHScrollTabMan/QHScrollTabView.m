@@ -278,7 +278,7 @@
 
 - (BOOL)p_bUsePages {
     NSInteger count = [self.scrollTabView numberOfSectionsInScrollTabView];
-    if (count <= self.sumCount) {
+    if (count < self.sumCount) {
         return YES;
     }
     return NO;
