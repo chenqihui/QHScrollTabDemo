@@ -48,6 +48,9 @@
     if (self.arPage == nil) {
         return 1;
     }
+    if (section < 0 || section >= self.arPage.count) {
+        return 0;
+    }
     return [self.arPage[section] integerValue];
    
 }

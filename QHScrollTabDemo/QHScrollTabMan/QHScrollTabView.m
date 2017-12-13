@@ -12,7 +12,7 @@
 
 @interface QHScrollTabView ()
 
-//@property (nonatomic) CGFloat tabWidth;
+@property (nonatomic) CGFloat tabWidth;//只当 bUseCustomWidth 为 NO 时候可使用
 @property (nonatomic) CGFloat tabHeight;
 
 @property (nonatomic, strong) UIView *highlightView;
@@ -38,6 +38,8 @@
 @property (nonatomic) CGFloat tabCountMax;
 @property (nonatomic) CGFloat lastContentOffsetX;
 @property (nonatomic) NSUInteger lastIndex;
+
+@property BOOL bUsePages;
 
 @end
 
@@ -83,7 +85,7 @@
     }
     else {
         [self p_layoutSubviews];
-        NSLog(@"%lu", (unsigned long)self.goSectionIndex);
+//        NSLog(@"%lu", (unsigned long)self.goSectionIndex);
         [self p_setCurrentTab:self.goSectionIndex];
     }
 }
@@ -102,6 +104,7 @@
     self.currentIndex = -1;
     self.bOpenScrollDelegate = NO;
     self.lastIndex = self.currentIndex;
+    self.bUsePages = [self p_bUsePages];
     
     if ([self.scrollTabView respondsToSelector:@selector(scrollTabCountMax:)]) {
         self.tabCountMax = [self.scrollTabView scrollTabCountMax:self.bounds.size.width];
@@ -144,15 +147,19 @@
         if (self.bUseCustomWidth == NO) {
             tabWidth = self.contentSV.frame.size.width / MIN(count, self.tabCountMax);
         }
+        self.tabWidth = tabWidth;
         
         CGFloat xTemp = 0;
+        CGFloat minW = CGFLOAT_MAX;
         for (int i = 0; i < count; i++) {
             CGFloat w = 0;
             if (self.bUseCustomWidth == NO) {
                 w = tabWidth;
+                minW = w;
             }
             else {
                 w = [self.scrollTabView scrollTabViewWidthBySection:i];
+                minW = MIN(w, minW);
             }
             UIView *subV = [[UIView alloc] initWithFrame:CGRectMake(xTemp, 0, w, self.tabHeight)];
             UIView *contentSubV = [self.scrollTabView scrollTabViewSection:i size:subV.frame.size];
@@ -170,10 +177,10 @@
             [self.scrollZoneArray addObject:@(pageEnd)];
         }
         
-        if (self.bUseCustomWidth == NO) {
-            self.highlightView = [self.scrollTabView scrollTabViewHighlightViewWithSize:CGSizeMake(tabWidth, self.tabHeight)];
+//        if (self.bUseCustomWidth == NO) {
+            self.highlightView = [self.scrollTabView scrollTabViewHighlightViewWithSize:CGSizeMake(minW, self.tabHeight)];
             [self.contentSV addSubview:self.highlightView];
-        }
+//        }
         
         self.contentSV.contentSize = CGSizeMake(xTemp, self.contentSV.frame.size.height);
     }
@@ -206,10 +213,20 @@
     return section;
 }
 
+//废弃，使用p_countRowsInSection替换
 - (NSInteger)p_getCountRowsInSection:(NSInteger)section {
     NSInteger rows = 0;
     for (int i = 0; i <= section; i++) {
         rows += [self.scrollTabView scrollTabViewNumberOfRowsInSection:i];
+    }
+    return rows;
+}
+
+- (NSInteger)p_countRowsInSection:(NSInteger)section {
+    NSInteger rows = 0;
+    NSInteger count = MIN([self.scrollTabView numberOfSectionsInScrollTabView], section);
+    for (int i = 1; i <= count; i++) {
+        rows += [self.scrollTabView scrollTabViewNumberOfRowsInSection:(i - 1)];
     }
     return rows;
 }
@@ -259,6 +276,14 @@
     return x;
 }
 
+- (BOOL)p_bUsePages {
+    NSInteger count = [self.scrollTabView numberOfSectionsInScrollTabView];
+    if (count <= self.sumCount) {
+        return YES;
+    }
+    return NO;
+}
+
 #pragma mark - Action
 
 - (void)mDealloc {
@@ -282,6 +307,7 @@
 - (void)setScrollTab:(id<QHScrollTabViewProtocol>)scrollTab mainScrollV:(UIScrollView *)sv {
     NSAssert(scrollTab != nil, @"id<QHScrollTabViewProtocol> isn't nil");
     self.scrollTabView = scrollTab;
+    self.bUsePages = [self p_bUsePages];
     if (sv != nil) {
         self.mainSV = sv;
         [self.mainSV addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
@@ -293,6 +319,7 @@
     NSAssert(scrollTab != nil, @"id<QHScrollTabViewProtocol> isn't nil");
     [self mDealloc];
     self.scrollTabView = scrollTab;
+    self.bUsePages = [self p_bUsePages];
     if (sv != nil) {
         self.mainSV = sv;
         [self.mainSV addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
@@ -366,9 +393,247 @@
     if (self.bTapTab) {
         return;
     }
+    if (self.currentIndex <= 0) {
+        return;
+    }
     if ([keyPath isEqualToString:@"contentOffset"]) {
         CGPoint contentOffset = [[change valueForKey:NSKeyValueChangeNewKey] CGPointValue];
-        NSLog(@"contentOffset--->%f", contentOffset.x);
+        if (self.bUsePages == NO) {
+            CGFloat currentPageX = self.mainSV.frame.size.width * (self.currentIndex - 1);
+            if (contentOffset.x < currentPageX && contentOffset.x >= currentPageX - self.mainSV.frame.size.width) {
+                if (self.currentIndex <= 1) {
+                    return;
+                }
+                CGFloat length = self.tabWidth;
+                if (self.bUseCustomWidth == YES) {
+                    CGFloat currentLength = [self.scrollTabView scrollTabViewWidthBySection:(self.currentIndex - 1)];
+                    CGFloat preLength = [self.scrollTabView scrollTabViewWidthBySection:(self.currentIndex - 2)];
+                    length = currentLength/2 + preLength/2;
+                }
+                CGFloat xx = currentPageX - contentOffset.x;
+                CGFloat lx = length * (xx / self.mainSV.frame.size.width);
+                
+                UIView *tabView = [self.contentSV viewWithTag:self.currentIndex];
+                CGRect frame = tabView.superview.frame;
+                frame.size.height = self.highlightView.frame.size.height;
+                frame.size.width = self.highlightView.frame.size.width;
+                frame.origin.y = self.highlightView.frame.origin.y;
+                frame.origin.x = tabView.superview.frame.origin.x + tabView.frame.size.width/2 - self.highlightView.frame.size.width/2 - lx;
+                self.highlightView.frame = frame;
+                
+                if (lx > length / 2) {
+                    [self p_setClickLabel:self.currentIndex - 1];
+                    NSInteger count = [self.scrollTabView numberOfSectionsInScrollTabView];
+                    if (count > 5) {
+                        UIView *currentView = [self.contentSV viewWithTag:self.currentIndex];
+                        [self.contentSV scrollRectToVisible:currentView.superview.frame animated:YES];
+                    }
+                    if (self.bOpenScrollDelegate == YES && [self.delegate respondsToSelector:@selector(selectTab:index:)]) {
+                        [self.delegate selectTab:self index:(int)(self.currentIndex - 1)];
+                    }
+                }
+            }
+            else if (contentOffset.x >= currentPageX && contentOffset.x < currentPageX + self.mainSV.frame.size.width) {
+                if (self.currentIndex >= [self.scrollTabView numberOfSectionsInScrollTabView]) {
+                    return;
+                }
+                CGFloat length = self.tabWidth;
+                if (self.bUseCustomWidth == YES) {
+                    CGFloat currentLength = [self.scrollTabView scrollTabViewWidthBySection:(self.currentIndex - 1)];
+                    CGFloat nextLength = [self.scrollTabView scrollTabViewWidthBySection:(self.currentIndex)];
+                    length = currentLength/2 + nextLength/2;
+                }
+                CGFloat xx = currentPageX - contentOffset.x;
+                CGFloat lx = length * (xx / self.mainSV.frame.size.width);
+                
+                UIView *tabView = [self.contentSV viewWithTag:self.currentIndex];
+                CGRect frame = tabView.superview.frame;
+                frame.size.height = self.highlightView.frame.size.height;
+                frame.size.width = self.highlightView.frame.size.width;
+                frame.origin.y = self.highlightView.frame.origin.y;
+                frame.origin.x = tabView.superview.frame.origin.x + tabView.frame.size.width/2 - self.highlightView.frame.size.width/2 - lx;
+                self.highlightView.frame = frame;
+                
+                if ((-lx) > length / 2) {
+                    [self p_setClickLabel:self.currentIndex + 1];
+                    NSInteger count = [self.scrollTabView numberOfSectionsInScrollTabView];
+                    if (count > 5) {
+                        UIView *currentView = [self.contentSV viewWithTag:self.currentIndex];
+                        [self.contentSV scrollRectToVisible:currentView.superview.frame animated:YES];
+                    }
+                    if (self.bOpenScrollDelegate == YES && [self.delegate respondsToSelector:@selector(selectTab:index:)]) {
+                        [self.delegate selectTab:self index:(int)(self.currentIndex - 1)];
+                    }
+                }
+            }
+        }
+        else {
+            NSUInteger pageCount = [self.scrollTabView scrollTabViewNumberOfRowsInSection:(self.currentIndex - 1)];
+            
+            NSUInteger preSumPages = [self p_countRowsInSection:self.currentIndex - 1];
+            NSUInteger currentPageInSum = contentOffset.x / self.mainSV.frame.size.width + 1;
+            NSUInteger currentPage = currentPageInSum - preSumPages;
+            CGFloat currentPageX = self.mainSV.frame.size.width * currentPageInSum;
+//            NSInteger currentPagesStart = [self p_countRowsInSection:(self.currentIndex - 1)];
+//            NSInteger currentPagesEnd = [self p_countRowsInSection:self.currentIndex]; 1)];
+            if (pageCount == 1) {
+                if (contentOffset.x < currentPageX && contentOffset.x >= currentPageX - self.mainSV.frame.size.width) {
+                    if (self.currentIndex <= 1) {
+                        return;
+                    }
+                    CGFloat length = self.tabWidth;
+                    if (self.bUseCustomWidth == YES) {
+                        CGFloat currentLength = [self.scrollTabView scrollTabViewWidthBySection:(self.currentIndex - 1)];
+                        CGFloat preLength = [self.scrollTabView scrollTabViewWidthBySection:(self.currentIndex - 2)];
+                        length = currentLength/2 + preLength/2;
+                    }
+                    CGFloat xx = currentPageX - contentOffset.x;
+                    CGFloat lx = length * (xx / self.mainSV.frame.size.width);
+                    
+                    UIView *tabView = [self.contentSV viewWithTag:self.currentIndex];
+                    CGRect frame = tabView.superview.frame;
+                    frame.size.height = self.highlightView.frame.size.height;
+                    frame.size.width = self.highlightView.frame.size.width;
+                    frame.origin.y = self.highlightView.frame.origin.y;
+                    frame.origin.x = tabView.superview.frame.origin.x + tabView.frame.size.width/2 - self.highlightView.frame.size.width/2 - lx;
+                    self.highlightView.frame = frame;
+                    NSLog(@"1");
+                    
+                    if (lx > length / 2) {
+                        [self p_setClickLabel:self.currentIndex - 1];
+                        NSInteger count = [self.scrollTabView numberOfSectionsInScrollTabView];
+                        if (count > 5) {
+                            UIView *currentView = [self.contentSV viewWithTag:self.currentIndex];
+                            [self.contentSV scrollRectToVisible:currentView.superview.frame animated:YES];
+                        }
+                        if (self.bOpenScrollDelegate == YES && [self.delegate respondsToSelector:@selector(selectTab:index:)]) {
+                            [self.delegate selectTab:self index:(int)(self.currentIndex - 1)];
+                        }
+                    }
+                }
+                else if (contentOffset.x >= currentPageX && contentOffset.x < currentPageX + self.mainSV.frame.size.width) {
+                    if (self.currentIndex >= [self.scrollTabView numberOfSectionsInScrollTabView]) {
+                        return;
+                    }
+                    CGFloat length = self.tabWidth;
+                    if (self.bUseCustomWidth == YES) {
+                        CGFloat currentLength = [self.scrollTabView scrollTabViewWidthBySection:(self.currentIndex - 1)];
+                        CGFloat nextLength = [self.scrollTabView scrollTabViewWidthBySection:(self.currentIndex)];
+                        length = currentLength/2 + nextLength/2;
+                    }
+                    CGFloat xx = currentPageX - contentOffset.x;
+                    CGFloat lx = length * (xx / self.mainSV.frame.size.width);
+                    
+                    UIView *tabView = [self.contentSV viewWithTag:self.currentIndex];
+                    CGRect frame = tabView.superview.frame;
+                    frame.size.height = self.highlightView.frame.size.height;
+                    frame.size.width = self.highlightView.frame.size.width;
+                    frame.origin.y = self.highlightView.frame.origin.y;
+                    frame.origin.x = tabView.superview.frame.origin.x + tabView.frame.size.width/2 - self.highlightView.frame.size.width/2 - lx;
+                    self.highlightView.frame = frame;
+                    NSLog(@"2");
+                    
+                    if ((-lx) > length / 2) {
+                        [self p_setClickLabel:self.currentIndex + 1];
+                        NSInteger count = [self.scrollTabView numberOfSectionsInScrollTabView];
+                        if (count > 5) {
+                            UIView *currentView = [self.contentSV viewWithTag:self.currentIndex];
+                            [self.contentSV scrollRectToVisible:currentView.superview.frame animated:YES];
+                        }
+                        if (self.bOpenScrollDelegate == YES && [self.delegate respondsToSelector:@selector(selectTab:index:)]) {
+                            [self.delegate selectTab:self index:(int)(self.currentIndex - 1)];
+                        }
+                    }
+                }
+            }
+            else if (currentPage == 1 && contentOffset.x < self.mainSV.frame.size.width * preSumPages) {
+                if (contentOffset.x < currentPageX && contentOffset.x >= currentPageX - self.mainSV.frame.size.width) {
+                    if (self.currentIndex <= 1) {
+                        return;
+                    }
+                    CGFloat length = self.tabWidth;
+                    if (self.bUseCustomWidth == YES) {
+                        CGFloat currentLength = [self.scrollTabView scrollTabViewWidthBySection:(self.currentIndex - 1)];
+                        CGFloat preLength = [self.scrollTabView scrollTabViewWidthBySection:(self.currentIndex - 2)];
+                        length = currentLength/2 + preLength/2;
+                    }
+                    CGFloat xx = currentPageX - contentOffset.x;
+                    CGFloat lx = length * (xx / self.mainSV.frame.size.width);
+                    
+                    UIView *tabView = [self.contentSV viewWithTag:self.currentIndex];
+                    CGRect frame = tabView.superview.frame;
+                    frame.size.height = self.highlightView.frame.size.height;
+                    frame.size.width = self.highlightView.frame.size.width;
+                    frame.origin.y = self.highlightView.frame.origin.y;
+                    frame.origin.x = tabView.superview.frame.origin.x + tabView.frame.size.width/2 - self.highlightView.frame.size.width/2 - lx;
+                    self.highlightView.frame = frame;
+                    NSLog(@"3");
+                    
+                    if (lx > length / 2) {
+                        [self p_setClickLabel:self.currentIndex - 1];
+                        NSInteger count = [self.scrollTabView numberOfSectionsInScrollTabView];
+                        if (count > 5) {
+                            UIView *currentView = [self.contentSV viewWithTag:self.currentIndex];
+                            [self.contentSV scrollRectToVisible:currentView.superview.frame animated:YES];
+                        }
+                        if (self.bOpenScrollDelegate == YES && [self.delegate respondsToSelector:@selector(selectTab:index:)]) {
+                            [self.delegate selectTab:self index:(int)(self.currentIndex - 1)];
+                        }
+                    }
+                }
+            }
+            else if (currentPage == pageCount && contentOffset.x > self.mainSV.frame.size.width * (preSumPages + (pageCount - 1))) {
+                if (contentOffset.x >= currentPageX && contentOffset.x < currentPageX + self.mainSV.frame.size.width) {
+                    if (self.currentIndex >= [self.scrollTabView numberOfSectionsInScrollTabView]) {
+                        return;
+                    }
+                    CGFloat length = self.tabWidth;
+                    if (self.bUseCustomWidth == YES) {
+                        CGFloat currentLength = [self.scrollTabView scrollTabViewWidthBySection:(self.currentIndex - 1)];
+                        CGFloat nextLength = [self.scrollTabView scrollTabViewWidthBySection:(self.currentIndex)];
+                        length = currentLength/2 + nextLength/2;
+                    }
+                    CGFloat xx = currentPageX - contentOffset.x;
+                    CGFloat lx = length * (xx / self.mainSV.frame.size.width);
+                    
+                    UIView *tabView = [self.contentSV viewWithTag:self.currentIndex];
+                    CGRect frame = tabView.superview.frame;
+                    //                NSLog(@"%@", NSStringFromCGRect(frame));
+                    frame.size.height = self.highlightView.frame.size.height;
+                    frame.size.width = self.highlightView.frame.size.width;
+                    frame.origin.y = self.highlightView.frame.origin.y;
+                    frame.origin.x = tabView.superview.frame.origin.x + tabView.frame.size.width/2 - self.highlightView.frame.size.width/2 - lx;
+                    self.highlightView.frame = frame;
+                    NSLog(@"4");
+                    
+                    if ((-lx) > length / 2) {
+                        [self p_setClickLabel:self.currentIndex + 1];
+                        NSInteger count = [self.scrollTabView numberOfSectionsInScrollTabView];
+                        if (count > 5) {
+                            UIView *currentView = [self.contentSV viewWithTag:self.currentIndex];
+                            [self.contentSV scrollRectToVisible:currentView.superview.frame animated:YES];
+                        }
+                        if (self.bOpenScrollDelegate == YES && [self.delegate respondsToSelector:@selector(selectTab:index:)]) {
+                            [self.delegate selectTab:self index:(int)(self.currentIndex - 1)];
+                        }
+                    }
+                }
+            }
+            else {
+                return;
+            }
+        }
+        
+    }
+}
+
+- (void)old_observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if (self.bTapTab) {
+        return;
+    }
+    if ([keyPath isEqualToString:@"contentOffset"]) {
+        CGPoint contentOffset = [[change valueForKey:NSKeyValueChangeNewKey] CGPointValue];
+//        NSLog(@"contentOffset--->%f", contentOffset.x);
         NSUInteger i = contentOffset.x/self.mainSV.frame.size.width;
         
 //        CGFloat offX = contentOffset.x - i*self.mainSV.frame.size.width;
@@ -426,23 +691,23 @@
                 nn = 0.25;
             }
             else {
-                nn = 0.75;
+             nn = 0.75;
                 if ([self p_getCountRowsInSection:(nowIdx - 1)] != (i + 1)) {
                     nowIdx += 1;
                 }
             }
-            NSLog(@"xx==%f", xx);
-            NSLog(@"nn==%f", nn);
+//            NSLog(@"xx==%f", xx);
+//            NSLog(@"nn==%f", nn);
             self.lastContentOffsetX = contentOffset.x;
             CGFloat ww = [(self.tabWidthArray[nowIdx]) floatValue];
         
-            NSLog(@"nowIdx==%ld", (long)nowIdx);
+//            NSLog(@"nowIdx==%ld", (long)nowIdx);
             NSUInteger idx = [self p_getPageSectionByX:(xx + ww*nn)] + 1;//self.highlightView.center.x/self.tabWidth + 1;
 //            NSUInteger idx = [self p_getPageSectionByX:(xx + [self.tabWidthArray[self.currentIndex - 1] floatValue]/2.0)] + 1;
             
             //对于自定义宽带是有问题的，但是单页就正常，尝试将多页情况判断为单页。即滑动判断临界页，这就需要判断滑动的位置是否处于临界页了
             
-            NSLog(@"idx==%ld", (long)idx);
+//            NSLog(@"idx==%ld", (long)idx);
             if (idx != self.currentIndex) {
                 [self p_setClickLabel:idx];
                 if (count > 5) {
