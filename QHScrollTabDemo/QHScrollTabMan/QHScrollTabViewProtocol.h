@@ -11,6 +11,8 @@
 
 @protocol QHScrollTabViewProtocol <NSObject>
 
+@required
+
 - (NSInteger)numberOfSectionsInScrollTabView;
 
 - (NSInteger)scrollTabViewNumberOfRowsInSection:(NSInteger)section;
