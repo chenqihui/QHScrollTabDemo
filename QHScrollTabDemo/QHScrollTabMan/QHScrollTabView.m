@@ -31,11 +31,9 @@
 
 @property BOOL bUseCustomWidth;
 @property (nonatomic, strong) NSMutableArray *tabWidthArray;
-@property (nonatomic, strong) NSMutableArray *scrollZoneArray;
+//@property (nonatomic, strong) NSMutableArray *scrollZoneArray;
 
 @property (nonatomic) CGFloat tabCountMax;
-@property (nonatomic) CGFloat lastContentOffsetX;
-@property (nonatomic) NSUInteger lastIndex;
 
 @end
 
@@ -99,7 +97,6 @@
     self.goSectionIndex = 0;
     self.currentIndex = -1;
     self.bOpenScrollDelegate = NO;
-    self.lastIndex = self.currentIndex;
     
     if ([self.scrollTabView respondsToSelector:@selector(scrollTabCountMax:)]) {
         self.tabCountMax = [self.scrollTabView scrollTabCountMax:self.bounds.size.width];
@@ -128,8 +125,6 @@
         
         self.tabWidthArray = nil;
         self.tabWidthArray = [NSMutableArray new];
-        self.scrollZoneArray = nil;
-        self.scrollZoneArray = [NSMutableArray new];
         
         self.tabHeight = self.contentSV.frame.size.height;
         
@@ -166,10 +161,10 @@
             xTemp += subV.frame.size.width;
             
             
-            NSInteger pageEnd = [self p_countRowsInSection:i] - 1;
-            NSInteger pageStart = pageEnd - [self.scrollTabView scrollTabViewNumberOfRowsInSection:i] + 1;
-            [self.scrollZoneArray addObject:@(pageStart)];
-            [self.scrollZoneArray addObject:@(pageEnd)];
+//            NSInteger pageEnd = [self p_countRowsInSection:i] - 1;
+//            NSInteger pageStart = pageEnd - [self.scrollTabView scrollTabViewNumberOfRowsInSection:i] + 1;
+//            [self.scrollZoneArray addObject:@(pageStart)];
+//            [self.scrollZoneArray addObject:@(pageEnd)];
         }
         
         //TODO: 变长的游标
@@ -190,7 +185,6 @@
     UIView *newView = [self.contentSV viewWithTag:idx];
     [self.scrollTabView highlightClickView:newView oldView:oldView];
     
-    self.lastIndex = self.currentIndex;
     self.currentIndex = idx;
 //    NSLog(@"scroll---->%lu", (unsigned long)self.currentIndex);
 }
