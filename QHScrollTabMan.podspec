@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "QHScrollTabMan"
-  s.version      = "0.1.0"
+  s.version      = "0.1.1"
   s.summary      = "QHScrollTabMan 是一个实现滑动 Tab 的控件"
 
   # This description is used to generate tags and improve search results.
