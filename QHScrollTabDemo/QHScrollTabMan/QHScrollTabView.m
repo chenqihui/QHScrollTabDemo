@@ -35,6 +35,8 @@
 
 @property (nonatomic) CGFloat tabCountMax;
 
+@property (nonatomic) BOOL bHasDonelayoutSubviews;
+
 @end
 
 @implementation QHScrollTabView
@@ -78,9 +80,12 @@
         self.bShowBubble = NO;
     }
     else {
-        [self p_layoutSubviews];
-//        NSLog(@"%lu", (unsigned long)self.goSectionIndex);
-        [self p_setCurrentTab:self.goSectionIndex];
+        if (self.bHasDonelayoutSubviews == NO) {
+            self.bHasDonelayoutSubviews = YES;
+            [self p_layoutSubviews];
+    //        NSLog(@"%lu", (unsigned long)self.goSectionIndex);
+            [self p_setCurrentTab:self.goSectionIndex];
+        }
     }
 }
 
@@ -97,6 +102,8 @@
     self.goSectionIndex = 0;
     self.currentIndex = -1;
     self.bOpenScrollDelegate = NO;
+    self.bHasDonelayoutSubviews = NO;
+    self.bShowBubble = NO;
     
     if ([self.scrollTabView respondsToSelector:@selector(scrollTabCountMax:)]) {
         self.tabCountMax = [self.scrollTabView scrollTabCountMax:self.bounds.size.width];
